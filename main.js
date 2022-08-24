@@ -60,23 +60,30 @@ async function main() {
     const input = '13516464634170510868514990663234703921658499834568172703840598274622696969987';
     const inputBuffer = Buffer.concat([Uint8Array.from(input)]);
     const inputBuffer2 = Buffer.from(input);
+
+    const hashedPri1 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(input))[0]);
+    const hashedPri2 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(inputBuffer))[0]);
+    const hashedPri3 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(inputBuffer2))[0]);
+console.log('hashedPri1:', hashedPri1);
+console.log('hashedPri2:', hashedPri2);
+console.log('hashedPri3:', hashedPri3);
     // console.log('dasasccxz', buff2hex(pedersenHash.hash(msg)))
-    const hello = '0';
-    const {proof, publicSignals} = await snarkjs.groth16.fullProve({
-            in: hello
-        },
-        './circuit/multiplier2_js/multiplier2.wasm',
-        'multiplier2_0001.zkey').finally((Hello) => Hello);
-    console.log('publicSignals:', publicSignals)
+    // const hello = '0';
+    // const {proof, publicSignals} = await snarkjs.groth16.fullProve({
+    //         in: hello
+    //     },
+    //     './circuit/multiplier2_js/multiplier2.wasm',
+    //     'multiplier2_0001.zkey').finally((Hello) => Hello);
+    // console.log('publicSignals:', publicSignals)
     // const hashedPri = babyjub.unpackPoint(pedersenHash.hash(input))[0];
-    const hashedPri = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash('0'))[0]);
-    const hashedPri11 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash('0'))[1]);
-    const hashedPri12 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash('0')));
-    const hashedPri2 = babyjub.F.toObject(pedersenHash.hash('0'));
-    const hashedPri3 = babyjub.F.toObject(pedersenHash.hash(buff2hex('0')));
-    const hashedPri4 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff2hex('0')))[0]);
-    const hashedPri41 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff2hex('0')))[1]);
-    const hashedPri42 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff2hex('0'))));
+    // const hashedPri = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash('0'))[0]);
+    // const hashedPri11 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash('0'))[1]);
+    // const hashedPri12 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash('0')));
+    // const hashedPri2 = babyjub.F.toObject(pedersenHash.hash('0'));
+    // const hashedPri3 = babyjub.F.toObject(pedersenHash.hash(buff2hex('0')));
+    // const hashedPri4 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff2hex('0')))[0]);
+    // const hashedPri41 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff2hex('0')))[1]);
+    // const hashedPri42 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff2hex('0'))));
     // const ahashedPri = pedersenHash.hash(input);
     // const hashedPri2 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(inputBuffer))[0]);
     // const ahashedPri2 = babyjub.F.toObject(pedersenHash.hash(inputBuffer));
@@ -89,14 +96,14 @@ async function main() {
     // const hashedpri3BufferPri3 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff512(pri3Buffer)))[0]);
     // const hashedpri3BufferPri5 = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(buff512(pri3Buffer5)))[0]);
     // const hashedPrivatekey = babyjub.F.toObject(babyjub.unpackPoint(pedersenHash.hash(privateKey))[0]);
-    console.log('pri:', hashedPri);
-    console.log('pri:', hashedPri11);
-    console.log('pri:', hashedPri12);
-    console.log('pri2:', hashedPri2);
-    console.log('pri3:', hashedPri3)
-    console.log('hashedPri4:', hashedPri4)
-    console.log('hashedPri4:', hashedPri41)
-    console.log('hashedPri4:', hashedPri42)
+    // console.log('pri:', hashedPri);
+    // console.log('pri:', hashedPri11);
+    // console.log('pri:', hashedPri12);
+    // console.log('pri2:', hashedPri2);
+    // console.log('pri3:', hashedPri3)
+    // console.log('hashedPri4:', hashedPri4)
+    // console.log('hashedPri4:', hashedPri41)
+    // console.log('hashedPri4:', hashedPri42)
     // console.log('ahashedPri:', ahashedPri);
     // console.log('ahashedPri2:', ahashedPri2);
     // console.log('ahashedPri3:', ahashedPri3)
