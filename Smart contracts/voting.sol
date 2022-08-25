@@ -1,14 +1,24 @@
-// SPDX-License-Identifier: UNLICENSED
-
-pragma solidity >=0.4.0;
+pragma solidity ^0.5.0;
 
 contract SolidityTest {
-    constructor() public {}
+   
+   string public title;
+   uint[] public votingOptions;
+   uint[] public voters;
+   bytes32 public merkleRoot;
 
-    function getResult() public view returns (uint256) {
-        uint256 a = 1;
-        uint256 b = 2;
-        uint256 result = a + b;
-        return result;
-    }
+   constructor(string memory _title, uint[] memory _votingOptions, uint[] memory _voters, bytes32 _merkleRoot) public {
+      title = _title;
+      votingOptions = _votingOptions;
+      voters = _voters;
+      merkleRoot = _merkleRoot;
+   }
+
+   function getVotingOptions() public view returns(uint[] memory){
+      return votingOptions;
+   }
+
+   function getVoters() public view returns(uint[] memory){
+      return voters;
+   }
 }

@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 export function Vote({option, confirmVote, vote, readOnly}){
     const handleVote = useCallback(()=>{

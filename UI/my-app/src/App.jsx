@@ -2,19 +2,6 @@ import { Grid,Button, Typography , CircularProgress, TextField } from "@mui/mate
 import React, { useCallback, useEffect, useState } from 'react';
 import {ethers} from 'ethers';
 import { Vote } from './components/VoteButton';
-import MerkleTree from 'merkletreejs';
-import {Buffer} from 'buffer';
-
-// const getABI = (address) => {
-//   const Http = new XMLHttpRequest();
-//   const url=`https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=ADJZSQWNVQ97P9EC7AX9UQ5D3U9TZ1AJEZ`;
-//   Http.open("GET", url);
-//   Http.send();
-
-//   Http.onreadystatechange = (e) => {
-//     console.log(Http.responseText)
-//   }
-// }
 
 function Voting() {
   const [votingTitle, setVotingTitle] = useState();
@@ -164,88 +151,81 @@ function Voting() {
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
-  // useEffect(()=>{
-  //   if (votingKeyGenerator && contractAddress){
-  //     const doo = async ()=>{
-  //       try {
-  //         const contract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-  //         const title = await contract.functions.title();
-  //         const root = await contract.functions.merkleRoot();
-  //         const votingOptions = await contract.functions.getVotingOptions();
-  //         const voters = await contract.functions.getVoters();
+  const fetchVk = (vkg)=>{
+    fetch(`/VKG?vkg=${vkg}`).then(async res =>{
+      setVotingKey(await res.text())
+    })
+  }
 
-  //         setPublicRoot(root[0]);
-  //         setVotingTitle(title[0]);
-  //         setVoters(voters[0]);
-  //         setVotingOptions(votingOptions[0]);
-  //         // votingKeyGenerator && setVotingKey(await VkGenerator(votingKeyGenerator))
-  //       } catch (error) {
-  //         console.error(error)
-  //         setVotingKeyGenerator()
-  //         setContractAddress(false)
-  //       }
-  //     }
-  //   doo();
-  //   }
-  // }, [contractAddress, votingKeyGenerator]);
+  const fetchMt = (vs)=>{
+    const url = (`/MT?voters=${vs}`).replaceAll(',', ';');
+    fetch(url).then(async res =>{
+      setPrivateRoot(await res.text())
+    })
+  }
+  
+  const getContractData = async ()=>{
+    try {
+      const contract = new ethers.Contract(contractAddress, contractAbi, signer);
+
+      const title = await contract.functions.title();
+      const root = await contract.functions.merkleRoot();
+      const votingOptions = await contract.functions.getVotingOptions();
+      const voters = await contract.functions.getVoters();
+
+      setPublicRoot(root[0]);
+      setVotingTitle(title[0]);
+      const vs = [];
+      voters[0].forEach(voter => {
+        vs.push(String(voter));
+      });
+      setVoters(vs);
+      setVotingOptions(votingOptions[0]);
+      votingKeyGenerator && fetchVk(votingKeyGenerator);
+      setFetchingInformation(true);
+    } catch (error) {
+      console.error(error)
+      setContractAddress(false)
+      setFetchingInformation(false)
+    }
+  }
 
   const addressHandler = useCallback((event)=>{
     const addr = event.target.value;
     setContractAddress(addr);
   },[]);
+
   const priHandler = useCallback((event)=>{
     const pri = event.target.value;
     setVotingKeyGenerator(pri);
   },[]);
+
   const confirmBtnHandler = useCallback(()=>{
-    const doo = async ()=>{
-      try {
-        const contract = new ethers.Contract(contractAddress, contractAbi, signer);
-
-        const title = await contract.functions.title();
-        const root = await contract.functions.merkleRoot();
-        const votingOptions = await contract.functions.getVotingOptions();
-        const voters = await contract.functions.getVoters();
-
-        setPublicRoot(root[0]);
-        setVotingTitle(title[0]);
-        const vs = [];
-        voters[0].forEach(voter => {
-          vs.push(String(voter));
-        });
-        setVoters(vs);
-        setVotingOptions(votingOptions[0]);
-        votingKeyGenerator && fetchVk();
-        setFetchingInformation(true);
-      } catch (error) {
-        console.error(error)
-        setContractAddress(false)
-        setFetchingInformation(false)
-      }
-    }
-    const fetchVk = ()=>{
-      fetch(`VKG?vkg=${votingKeyGenerator}`).then(async res =>{
-        setVotingKey(await res.text())
-      })
-    }
     if (votingKeyGenerator && contractAddress){
       setFetchingInformation(undefined)
-    doo();
+      getContractData();
     }
   },[contractAbi, contractAddress, votingKeyGenerator]);
+
   useEffect(()=>{
     if (voters && voters.length >= 1){
-      const leaves = [];
-      voters.forEach(voter => {
-        const inputBuffer = Buffer.from(String(voter));
-        leaves.push(inputBuffer);
-      });
-      const tree = new MerkleTree(leaves)
-      const root  = tree.getHexRoot()
-      setPrivateRoot(root);
+      // const leaves = [];
+      // voters.forEach(voter => {
+      //   const inputBuffer = Buffer.from(String(voter));
+      //   leaves.push(inputBuffer);
+      // });
+      // const tree = new MerkleTree(leaves)
+      // const layers = tree.getLayers();
+      // console.log('layers:', (layers[1][0]).toString('hex'))
+      // const hexlayers = tree.getHexLayers();
+      // console.log('hexlayers:', (hexlayers[1][0]))
+      // const root  = tree.getHexRoot()
+      // setPrivateRoot(root);
+      fetchMt(voters);
     }
   },[canVote, voters, votingKey]);
+
   useEffect(()=>{
     if(votingKey && voters && voters.includes(votingKeyGenerator)){
       setCanVote(true)

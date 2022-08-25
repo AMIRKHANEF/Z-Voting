@@ -2,7 +2,7 @@ const {
     groth16
 } = require('snarkjs');
 
-export default async function VkGenerator(privateKey) {
+async function VkGenerator(privateKey) {
     try {
         const {
             proof,
@@ -11,12 +11,14 @@ export default async function VkGenerator(privateKey) {
                 // in: String(privateKey)
                 in: '0'
             },
-            'VotingKeyGenerator.wasm',
-            'VKG_0001.zkey');
+            './circuits/votingKeyGenerator/VotingKeyGenerator_js/VotingKeyGenerator.wasm',
+            './circuits/votingKeyGenerator/VKG_0001.zkey');
         console.log(publicSignals);
-        return publicSignals;
+        return publicSignals[0];
     } catch (error) {
         console.error(error);
         return false;
     }
 }
+
+module.exports = VkGenerator;
