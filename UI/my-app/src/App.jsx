@@ -13,8 +13,8 @@ function Voting() {
               <Typography color={'black'} variant={'h3'} fontWeight={700} p={0} >Wellcome to Zero-Knowledge & Gasless Voting framework </Typography>
             </Grid>
             <Grid item container justifyContent={'center'} alignItems={'center'} pt={15} spacing={15}>
-              <Grid item><Button sx={{ width: '200px', height: '120px', fontWeight: 600, fontSize: '18px'}} variant="contained" onClick={()=> setChoose(0)}>Initiat a voting</Button></Grid>
-              <Grid item><Button sx={{ width: '200px', height: '120px', fontWeight: 600, fontSize: '18px'}} variant="contained" onClick={()=> setChoose(1)}>Go vote</Button></Grid>
+              <Grid item><Button sx={{ width: '210px', height: '120px', fontWeight: 600, fontSize: '18px'}} variant="contained" onClick={()=> setChoose(0)}>Initiate a voting</Button></Grid>
+              <Grid item><Button sx={{ width: '210px', height: '120px', fontWeight: 600, fontSize: '18px'}} variant="contained" onClick={()=> setChoose(1)}>Go vote</Button></Grid>
             </Grid>
           </>
         }
