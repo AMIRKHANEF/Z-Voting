@@ -12,7 +12,7 @@ app.use(pino);
 
 app.get('/VKG', async (req, res) => {
   const vkg = req.query.vkg;
-  const Vk = await VkGenerator(vkg);
+  const Vk = vkg ? await VkGenerator(vkg) : await VkGenerator();
   res.send(Vk);
 });
 

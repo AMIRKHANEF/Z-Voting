@@ -1,11 +1,13 @@
 pragma circom 2.0.0;
 
 include "../../node_modules/circomlib/circuits/pedersen.circom";
+include "../merkleTree/merkleTree.circom";
+include "../votingKeyGenerator/VotingKeyGenerator.circom";
 
-template ZVoting() {
+template ZVoting(num) {
     signal input VotingKeyGenerator;
-    signal input VotingKey;
-    // signal input voters[num];
+    signal input indice;
+    signal input voters[num];
     signal output nullifier;
 
     component pedersen = Pedersen(1);
@@ -17,4 +19,4 @@ template ZVoting() {
     nullifierHasher.in[1] <== VotingKey;
     nullifierHasher.out[0] ==> nullifier;
 }
-component main = ZVoting();
+component main{public voters} = ZVoting(5);

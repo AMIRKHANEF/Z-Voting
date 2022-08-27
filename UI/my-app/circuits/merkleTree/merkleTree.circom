@@ -66,4 +66,4 @@ template MerkleTreeBuilder(leaves) {
     root <== rootCal[0];
 }
 
-component main = MerkleTreeBuilder(7);
+// component main = MerkleTreeBuilder(7);
