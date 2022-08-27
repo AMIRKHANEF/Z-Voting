@@ -8,11 +8,10 @@ async function VkGenerator(privateKey) {
             proof,
             publicSignals
         } = await groth16.fullProve({
-                // in: String(privateKey)
-                in: '0'
+                in: privateKey
             },
-            './circuits/votingKeyGenerator/VotingKeyGenerator_js/VotingKeyGenerator.wasm',
-            './circuits/votingKeyGenerator/VKG_0001.zkey');
+            '../circuits/votingKeyGenerator/VotingKeyGenerator.wasm',
+            '../circuits/votingKeyGenerator/VKG_0001.zkey');
         console.log(publicSignals);
         return publicSignals[0];
     } catch (error) {
