@@ -15,7 +15,7 @@ function Voting() {
             <Grid item xs={12} textAlign='center' sx={{py:5, fontWeight:700, fontSize:25}}>
               <Typography color={'black'} variant={'h3'} fontWeight={700} p={0} >Welcome to Zero-Knowledge & Gasless Voting framework </Typography>
             </Grid>
-            <Grid item container justifyContent={'center'} alignItems={'center'} pt={15} spacing={15}>
+            <Grid item container justifyContent={'center'} alignItems={'center'} pt={8} spacing={15}>
               <Grid item><Button sx={{ width: '210px', height: '120px', fontWeight: 600, fontSize: '18px'}} variant="contained" onClick={()=> setChoose(0)}>Initiate a voting</Button></Grid>
               <Grid item><Button sx={{ width: '210px', height: '120px', fontWeight: 600, fontSize: '18px'}} variant="contained" onClick={()=> setChoose(1)}>Go vote</Button></Grid>
             </Grid>
@@ -25,7 +25,7 @@ function Voting() {
           </>
         }
         {choose === 0 &&
-          <InitiateVoting />
+          <InitiateVoting back={setChoose}/>
         }
         {choose === 1 &&
           <Voter back={setChoose}/>
