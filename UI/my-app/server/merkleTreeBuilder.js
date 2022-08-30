@@ -8,11 +8,12 @@ async function merkleTreeBuilder(voters) {
             proof,
             publicSignals
         } = await groth16.fullProve({
-                in: voters
+                voters: voters
             },
-            '../circuits/merkleTree/merkleTree.wasm',
-            '../circuits/merkleTree/merkleTree_0001.zkey');
+            './circuits/merkleTree/merkleTree.wasm',
+            './circuits/merkleTree/Mt_0001.zkey');
         console.log(publicSignals);
+        console.log('publicSignals:',publicSignals[0])
         return publicSignals[0];
     } catch (error) {
         console.error(error);

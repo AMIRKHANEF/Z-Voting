@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Grid,Button, Typography , CircularProgress, TextField } from "@mui/material";
 import { Vote } from './VoteButton';
 import {ethers} from 'ethers';
-import { ZVotingABI } from '../Smart contracts/abi';
+import { ZVotingABI } from '../Smart contracts/ZvotingCompiled';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // const ZvotingAddress = '0x70875d5b7b11398567a730c003d2103caf24f015';
@@ -15,6 +15,8 @@ export function Voter({back}){
     const [votingKey, setVotingKey] = useState();
     const [voters, setVoters] = useState();
     const [publicRoot, setPublicRoot] = useState();
+    const [ayesCounter, setAyesCounter] = useState();
+    const [naysCounter, setNaysCounter] = useState();
     const [canVote, setCanVote] = useState(false);
     const [vote, setVote] = useState();
     const [index, setIndex] = useState();
@@ -31,6 +33,11 @@ export function Voter({back}){
           const title = await contract.functions.title();
           const root = await contract.functions.merkleRoot();
           const voters = await contract.functions.getVoters();
+          
+          const ayes = await contract.AyeCounter();
+          setAyesCounter(ayes.toString())
+          const nays = await contract.NayCounter();
+          setNaysCounter(nays.toString())
 
           setPublicRoot(root[0].toString());
           setVotingTitle(title[0]);
@@ -96,11 +103,10 @@ export function Voter({back}){
     },[]);
 
     const submitVoteOnContract = async (calldata, voteValue) => {
-        console.log('calldata:', typeof(calldata))
-        console.log('calldata:', calldata[0])
         const contract = new ethers.Contract(contractAddress, ZVotingABI, signer);
         const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], calldata[3][0], voteValue);
-        console.log('votingProcess:', votingProcess);
+        const recipt = await votingProcess.wait()
+        console.log('recipt:', recipt);
     };
 
     const doVote = (vt, indice, pR, vKG)=>{
@@ -160,6 +166,9 @@ export function Voter({back}){
                 <Grid container item xs={12} justifyContent={'center'} alignItems={'center'} pt={2} >
                     <Vote confirmVote={setVote} option={'AYE'} vote={vote} readOnly={!canVote} />
                     <Vote confirmVote={setVote} option={'NAY'} vote={vote} readOnly={!canVote} />
+                    <Grid item xs={12}>
+                        <Typography textAlign={'center'} color={'black'} variant={'h6'} fontWeight={500}>Aye: {ayesCounter} Nay: {naysCounter}</Typography>
+                    </Grid>
                 </Grid>
             }
             {!canVote && fetchingInformation &&

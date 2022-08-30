@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Grid,Button, Divider , Typography, TextField } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {ethers} from 'ethers';
+import { ZVotingABI, ZVotingByteCode } from '../Smart contracts/ZvotingCompiled';
+import { useMemo } from 'react';
 
 export function InitiateVoting({back}){
     const [votingTitle, setVotingTitle] = useState();
@@ -9,7 +12,10 @@ export function InitiateVoting({back}){
     const [vk3, setVk3] = useState();
     const [vk4, setVk4] = useState();
     const [vk5, setVk5] = useState();
-    const [voters, setVoters] = useState();
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const factory = useMemo(()=> { return new ethers.ContractFactory(ZVotingABI, ZVotingByteCode, signer)},[signer]);
 
     const votingTitleHandler = useCallback((event)=>{
         const title = event.target.value;
@@ -17,13 +23,33 @@ export function InitiateVoting({back}){
     },[])
 
     const backHandler = useCallback(()=>{
-        setVoters();
         back(null);
     },[back]);
 
-    const nextStepHandler = useCallback(()=>{
-        vk1 && vk2 && vk3 && vk4 && vk5 && setVoters([vk1, vk2, vk3, vk4, vk5]);
-    },[vk1, vk2, vk3, vk4, vk5]);
+    const nextStepHandler = useCallback(async ()=>{
+        const getPublicRoot = (vts)=>{
+            fetch('/MTB',{
+                method: 'post', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ 
+                    voters: vts
+                })
+            }).then(async res => {
+                console.log('im hereeee 2222')
+                const merkleTreeRoot = await res.text();
+                console.log('im hereeee 2222:', merkleTreeRoot)
+                const contract = await factory.deploy(votingTitle, vts, merkleTreeRoot);
+            })
+        };
+    
+        if(votingTitle && vk1 && vk2 && vk3 && vk4 && vk5){
+            console.log('im hereeee 1111')
+            const voters = [];
+            voters.push(vk1, vk2, vk3, vk4, vk5);
+            console.log('im hereeee 1111:', voters)
+            getPublicRoot(voters);
+        }
+    },[factory, vk1, vk2, vk3, vk4, vk5, votingTitle]);
     
     return(
         <>
@@ -54,7 +80,7 @@ export function InitiateVoting({back}){
                         variant='contained'
                         sx={{p:2, fontSize:'16px', fontWeight:600}}
                         onClick={nextStepHandler}
-                        >go initating voting
+                        >Initating voting
                     </Button>
                 </Grid>
             </Grid>
