@@ -26,7 +26,6 @@ app.post('/vote',async (req, res) => {
   const votingKeyGenerator = req.body.votingKeyGenerator;
 
   const proof = await buildProof(voters, index, publicRoot, votingKeyGenerator);
-  console.log('proof:', proof.inputs)
   res.send(proof);
 });
 

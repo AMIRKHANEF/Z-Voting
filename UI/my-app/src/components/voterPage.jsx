@@ -95,9 +95,10 @@ export function Voter({back}){
         setVotingKeyGenerator(vkg);
     },[]);
 
-    const submitVoteOnContract = async ({a,b,c,inputs}, voteValue) => {
+    const submitVoteOnContract = async (calldata, voteValue) => {
+        console.log('calldata:', calldata)
         const contract = new ethers.Contract(contractAddress, ZVotingABI, signer);
-        const votingProcess = await contract.functions.Vote(a, b, c, inputs, inputs[0], voteValue);
+        const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], calldata[3][0], voteValue);
         console.log('votingProcess:', votingProcess);
     };
 
@@ -115,10 +116,10 @@ export function Voter({back}){
             const proof = await res.text();
             setSucess(undefined);
             try {
-                submitVoteOnContract(JSON.parse(proof), vote === 'AYE' ? 1 : 0);
+                submitVoteOnContract(proof, vote === 'AYE' ? 1 : 0);
                 setSucess(true);
             } catch (error) {
-                console.error(error);            
+            console.error(error);            
                 setSucess(false)
             }
             setDone(true);
