@@ -4,7 +4,6 @@ import React, { useCallback } from 'react';
 export function Vote({option, confirmVote, vote, readOnly}){
     const handleVote = useCallback(()=>{
         confirmVote(option);
-
     },[confirmVote, option]);
 
     return(

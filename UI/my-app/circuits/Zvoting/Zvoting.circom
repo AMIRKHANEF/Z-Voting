@@ -18,12 +18,18 @@ template ZVoting(num) {
     component pedersen = Pedersen(1);
     pedersen.in[0] <== VotingKeyGenerator;
     VotingKey = pedersen.out[0];
+
+    log(VotingKey);
+
     component checker = QuinSelector(num);
     for(var i = 0;i< num; i++){
         checker.in[i] <== voters[i];
     }
     checker.index <== index;
-    VotingKey === checker.out;
+    var indexed = checker.out;
+    log(indexed);
+    VotingKey === indexed;
+    
     
     component BuildMerkleTree = MerkleTreeBuilder(num);
 
@@ -31,6 +37,7 @@ template ZVoting(num) {
         BuildMerkleTree.voters[i] <== voters[i];
     }
     privateRoot = BuildMerkleTree.root;
+    log(privateRoot);
 
     publicRoot === privateRoot;
 
@@ -40,4 +47,4 @@ template ZVoting(num) {
     nullifierHasher.out[0] ==> nullifier;
 }
 
-component main{public [voters, publicRoot]} = ZVoting(5);
+// component main{public [voters, publicRoot]} = ZVoting(5);

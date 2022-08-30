@@ -11,4 +11,4 @@ template VotingKeyGenerator() {
     pedersen.out[0] ==> out;
 }
 
-component main = VotingKeyGenerator();
+// component main = VotingKeyGenerator();
