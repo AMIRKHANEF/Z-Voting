@@ -96,7 +96,8 @@ export function Voter({back}){
     },[]);
 
     const submitVoteOnContract = async (calldata, voteValue) => {
-        console.log('calldata:', calldata)
+        console.log('calldata:', typeof(calldata))
+        console.log('calldata:', calldata[0])
         const contract = new ethers.Contract(contractAddress, ZVotingABI, signer);
         const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], calldata[3][0], voteValue);
         console.log('votingProcess:', votingProcess);
@@ -116,7 +117,7 @@ export function Voter({back}){
             const proof = await res.text();
             setSucess(undefined);
             try {
-                submitVoteOnContract(proof, vote === 'AYE' ? 1 : 0);
+                submitVoteOnContract(JSON.parse(proof), vote === 'AYE' ? 1 : 0);
                 setSucess(true);
             } catch (error) {
             console.error(error);            
