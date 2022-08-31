@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Grid,Button, Divider , Typography, TextField } from "@mui/material";
+import { Grid,Button, CircularProgress , Typography, TextField } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ethers} from 'ethers';
 import { ZVotingABI, ZVotingByteCode } from '../Smart contracts/ZvotingCompiled';
@@ -12,6 +12,7 @@ export function InitiateVoting({back}){
     const [vk3, setVk3] = useState();
     const [vk4, setVk4] = useState();
     const [vk5, setVk5] = useState();
+    const [contractAddress, setContractAddress] = useState(null);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -27,6 +28,7 @@ export function InitiateVoting({back}){
     },[back]);
 
     const nextStepHandler = useCallback(async ()=>{
+        setContractAddress(undefined)
         const getPublicRoot = (vts)=>{
             fetch('/MTB',{
                 method: 'post', 
@@ -39,22 +41,21 @@ export function InitiateVoting({back}){
                 const merkleTreeRoot = await res.text();
                 console.log('im hereeee 2222:', merkleTreeRoot)
                 const contract = await factory.deploy(votingTitle, vts, merkleTreeRoot);
-                console.log("contract.wait():",contract.deployTransaction.creates)
+                setContractAddress(contract.deployTransaction.creates)
                 console.log("contract.wait():",contract)
             })
         };
     
         if(votingTitle && vk1 && vk2 && vk3 && vk4 && vk5){
-            console.log('im hereeee 1111')
             const voters = [];
             voters.push(vk1, vk2, vk3, vk4, vk5);
-            console.log('im hereeee 1111:', voters)
             getPublicRoot(voters);
         }
     },[factory, vk1, vk2, vk3, vk4, vk5, votingTitle]);
     
     return(
         <>
+            {contractAddress === null &&
             <Grid container item justifyContent={'center'}>
                 <Grid item textAlign='center' sx={{py:5}}>
                     <Typography color={'black'} variant={'h4'} fontWeight={700} >Initaiting an anonymous & gasless voting</Typography>
@@ -86,6 +87,23 @@ export function InitiateVoting({back}){
                     </Button>
                 </Grid>
             </Grid>
+            }
+            {contractAddress === undefined &&
+                <Grid container item xs={12} textAlign={'center'} pt={20}>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <CircularProgress/>
+                    </Grid>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <Typography color={'black'} variant={'h5'} fontWeight={700} pt={5} >Sign your transaction and wait for voting to take place!</Typography>
+                    </Grid>
+                </Grid>
+            }
+            {contractAddress &&
+                <Grid item xs={12} textAlign='center' sx={{py:3}}>
+                    <Typography color={'black'} variant={'h5'} fontWeight={700} pt={20} >The Voting Initiated In This Address:</Typography>
+                    <Typography color={'black'} variant={'h4'} fontWeight={700} pt={5} >{contractAddress}</Typography>
+                </Grid>
+            }
             <Button sx={{position: 'absolute', top: '3%', left: '2%', width:'35px', height: '35px'}} variant="contained" onClick={backHandler}><ArrowBackIcon /></Button>
         </>
     );
