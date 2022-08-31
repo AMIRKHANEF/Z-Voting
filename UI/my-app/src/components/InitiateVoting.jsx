@@ -39,6 +39,8 @@ export function InitiateVoting({back}){
                 const merkleTreeRoot = await res.text();
                 console.log('im hereeee 2222:', merkleTreeRoot)
                 const contract = await factory.deploy(votingTitle, vts, merkleTreeRoot);
+                console.log("contract.wait():",contract.deployTransaction.creates)
+                console.log("contract.wait():",contract)
             })
         };
     

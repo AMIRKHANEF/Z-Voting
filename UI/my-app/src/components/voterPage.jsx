@@ -59,10 +59,10 @@ export function Voter({back}){
         setContractAddress(addr);
     },[]);
 
-    const VkHandler = useCallback((event)=>{
-        const vk = event.target.value;
-        setVotingKey(vk);
-    },[]);
+    // const VkHandler = useCallback((event)=>{
+    //     const vk = event.target.value;
+    //     setVotingKey(vk);
+    // },[]);
 
     const confirmBtnHandler = useCallback(()=>{
         if (votingKey && contractAddress){
@@ -85,6 +85,19 @@ export function Voter({back}){
         back(null);
     },[back]);
 
+    const getPublicVotingID = async (vkg) =>{
+        fetch(`/VKG?vkg=${vkg}`).then(async res =>{
+            const vk = await res.text();
+            setVotingKey(vk);
+        });
+    };
+
+    useEffect(()=>{
+        if(votingKeyGenerator){
+            getPublicVotingID(votingKeyGenerator)
+        }
+    },[votingKeyGenerator]);
+
     useEffect(()=>{
         setCanVote(false)
         if(votingKey && voters && voters.includes(votingKey)){
@@ -92,10 +105,6 @@ export function Voter({back}){
           setIndex(voters.indexOf(votingKey))
         }
     },[canVote, voters, votingKey]);
-
-    const submitHandler = useCallback(()=>{
-        !submitVote && setSubmitVote(true)
-    },[submitVote]);
 
     const vkgHandler = useCallback((event)=>{
         const vkg = event.target.value;
@@ -133,11 +142,18 @@ export function Voter({back}){
         });
     };
 
-    const vkgBtnHandler = useCallback(()=>{
+    // const vkgBtnHandler = useCallback(()=>{
+    //     if (votingKeyGenerator && voters && publicRoot && index !== undefined){
+    //         doVote(voters, index, publicRoot, votingKeyGenerator);
+    //     }
+    // },[index, publicRoot, voters, votingKeyGenerator]);
+
+    const submitHandler = useCallback(()=>{
+        !submitVote && setSubmitVote(true);
         if (votingKeyGenerator && voters && publicRoot && index !== undefined){
             doVote(voters, index, publicRoot, votingKeyGenerator);
         }
-    },[index, publicRoot, voters, votingKeyGenerator]);
+    },[index, publicRoot, submitVote, voters, votingKeyGenerator]);
 
     return(
         <>
@@ -150,7 +166,7 @@ export function Voter({back}){
                         <TextField id="outlined-basic" label='Enter voting contract address' variant="outlined" sx={{width:'40%'}} onChange={addressHandler}/>
                     </Grid>
                     <Grid item xs={12} textAlign={'center'}>
-                        <TextField id="outlined-basic" label='Enter your VotingKey' sx={{width:'40%'}} variant="outlined" onChange={VkHandler}/>
+                        <TextField id="outlined-basic" label='Enter your PrivateVotingID' sx={{width:'40%'}} variant="outlined" onChange={vkgHandler}/>
                     </Grid>
                     <Grid item py={1} xs={12} textAlign={'center'}>
                         <Button variant="contained" sx={{p:'10px 15px'}} onClick={confirmBtnHandler}>Confirm</Button>
@@ -202,16 +218,7 @@ export function Voter({back}){
                     </Button>
                 </Grid>
             }
-            {submitVote && !done &&
-                <Grid item container pt={15} xs={12} justifyContent={'center'}>
-                    <Grid item xs={5}>
-                        <TextField id="outlined-basic" label='Enter votingKey generator' variant="outlined" sx={{width: '100%'}} onChange={vkgHandler}/>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button variant="contained" sx={{p:'10px 15px', m:'5px 15px'}} onClick={vkgBtnHandler}>Confirm</Button>
-                    </Grid>
-                </Grid>
-            }
+
             {done && sucess === undefined &&
                 <Grid container item xs={12} justifyContent={'center'} alignItems={'center'} pt={5}>
                     <CircularProgress />
