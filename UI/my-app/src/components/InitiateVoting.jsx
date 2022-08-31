@@ -13,6 +13,8 @@ export function InitiateVoting({back}){
     const [vk4, setVk4] = useState();
     const [vk5, setVk5] = useState();
     const [contractAddress, setContractAddress] = useState(null);
+    const [networkName, setNetworkName] = useState();
+    const [txHash, setTxHash] = useState();
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -42,7 +44,9 @@ export function InitiateVoting({back}){
                 console.log('im hereeee 2222:', merkleTreeRoot)
                 const contract = await factory.deploy(votingTitle, vts, merkleTreeRoot);
                 setContractAddress(contract.deployTransaction.creates)
-                console.log("contract.wait():",contract)
+                setTxHash(contract.deployTransaction.hash)
+                setNetworkName(contract.provider._network.name)
+                console.log("contract.wait():",contract.provider._network.name)
             })
         };
     
@@ -52,6 +56,10 @@ export function InitiateVoting({back}){
             getPublicRoot(voters);
         }
     },[factory, vk1, vk2, vk3, vk4, vk5, votingTitle]);
+
+    const etherscanHandler = useCallback(()=>{
+        window.open(`https://${networkName}.etherscan.io/tx/${txHash}`, '_blank')
+    },[networkName, txHash])
     
     return(
         <>
@@ -94,14 +102,15 @@ export function InitiateVoting({back}){
                         <CircularProgress/>
                     </Grid>
                     <Grid item justifyContent={'center'} xs={12}>
-                        <Typography color={'black'} variant={'h5'} fontWeight={700} pt={5} >Sign your transaction and wait for voting to take place!</Typography>
+                        <Typography color={'black'} variant={'h5'} fontWeight={700} pt={5} >Sign your transaction and wait for the voting to take place!</Typography>
                     </Grid>
                 </Grid>
             }
             {contractAddress &&
                 <Grid item xs={12} textAlign='center' sx={{py:3}}>
                     <Typography color={'black'} variant={'h5'} fontWeight={700} pt={20} >The Voting Initiated In This Address:</Typography>
-                    <Typography color={'black'} variant={'h4'} fontWeight={700} pt={5} >{contractAddress}</Typography>
+                    <Typography color={'black'} variant={'h4'} fontWeight={700} py={5} >{contractAddress}</Typography>
+                    <Button variant='contained' onClick={etherscanHandler}>View on etherscan</Button>
                 </Grid>
             }
             <Button sx={{position: 'absolute', top: '3%', left: '2%', width:'35px', height: '35px'}} variant="contained" onClick={backHandler}><ArrowBackIcon /></Button>
