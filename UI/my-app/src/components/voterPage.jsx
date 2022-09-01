@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Grid,Button, Typography , CircularProgress, TextField } from "@mui/material";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Vote } from './VoteButton';
 import {ethers} from 'ethers';
 import { ZVotingABI } from '../Smart contracts/ZvotingCompiled';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-// const ZvotingAddress = '0x70875d5b7b11398567a730c003d2103caf24f015';
 
 export function Voter({back}){
     const [votingTitle, setVotingTitle] = useState();
@@ -59,11 +58,6 @@ export function Voter({back}){
         setContractAddress(addr);
     },[]);
 
-    // const VkHandler = useCallback((event)=>{
-    //     const vk = event.target.value;
-    //     setVotingKey(vk);
-    // },[]);
-
     const confirmBtnHandler = useCallback(()=>{
         if (votingKey && contractAddress){
           setFetchingInformation(undefined)
@@ -79,7 +73,6 @@ export function Voter({back}){
         setVotingKey();
         setVoters();
         setPublicRoot();
-        // setPrivateRoot();
         setCanVote();
         setVote();
         back(null);
@@ -113,9 +106,14 @@ export function Voter({back}){
 
     const submitVoteOnContract = async (calldata, voteValue) => {
         const contract = new ethers.Contract(contractAddress, ZVotingABI, signer);
-        const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], calldata[3][0], voteValue);
-        const recipt = await votingProcess.wait()
-        console.log('recipt:', recipt);
+        try {
+            const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], calldata[3][0], voteValue);
+            const recipt = await votingProcess.wait()
+            setSucess(true);
+        } catch (error) {
+            console.error(error);
+            setSucess(false)
+        }
     };
 
     const doVote = (vt, indice, pR, vKG)=>{
@@ -130,27 +128,20 @@ export function Voter({back}){
             })
         }).then(async res =>{
             const proof = await res.text();
-            setSucess(undefined);
             try {
                 submitVoteOnContract(JSON.parse(proof), vote === 'AYE' ? 1 : 0);
-                setSucess(true);
             } catch (error) {
             console.error(error);            
-                setSucess(false)
+            console.log('error.reason',error.reason);            
             }
-            setDone(true);
         });
     };
 
-    // const vkgBtnHandler = useCallback(()=>{
-    //     if (votingKeyGenerator && voters && publicRoot && index !== undefined){
-    //         doVote(voters, index, publicRoot, votingKeyGenerator);
-    //     }
-    // },[index, publicRoot, voters, votingKeyGenerator]);
-
-    const submitHandler = useCallback(()=>{
+    const submitHandler = useCallback(() => {
         !submitVote && setSubmitVote(true);
         if (votingKeyGenerator && voters && publicRoot && index !== undefined){
+            setSucess(undefined);
+            setDone(true);
             doVote(voters, index, publicRoot, votingKeyGenerator);
         }
     },[index, publicRoot, submitVote, voters, votingKeyGenerator]);
@@ -173,11 +164,13 @@ export function Voter({back}){
                     </Grid>
                 </>
             }
+
             {votingTitle && contractAddress && !submitVote &&
                 <Grid item xs={12} textAlign='center'>
                     <h2>{votingTitle}</h2>
                 </Grid>
             }
+
             {fetchingInformation && contractAddress && !submitVote &&
                 <Grid container item xs={12} justifyContent={'center'} alignItems={'center'} pt={2} >
                     <Vote confirmVote={setVote} option={'AYE'} vote={vote} readOnly={!canVote} />
@@ -187,6 +180,7 @@ export function Voter({back}){
                     </Grid>
                 </Grid>
             }
+
             {!canVote && fetchingInformation &&
                 <Grid container item xs={12} pt={5} textAlign='center'>
                     <Grid item xs={12}>
@@ -197,14 +191,22 @@ export function Voter({back}){
                     </Grid>
                 </Grid>
             }
+
             {fetchingInformation === undefined &&
-                <Grid container item xs={12} justifyContent={'center'} alignItems={'center'} pt={5}>
-                    <CircularProgress />
+                <Grid container item xs={12} textAlign={'center'} pt={10}>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <CircularProgress/>
+                    </Grid>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <Typography color={'black'} variant={'h5'} pt={5}>Getting Voting information!</Typography>
+                    </Grid>
                 </Grid>
             }
+
             {fetchingInformation === false &&
                 <Typography color={'red'} variant={'h4'} pt={5}>Make sure the Voting contract address is correct!</Typography>
             }
+
             {!submitVote &&
                 <Grid container item xs={12} justifyContent={'center'} alignItems={'center'}>
                     <Button
@@ -220,14 +222,31 @@ export function Voter({back}){
             }
 
             {done && sucess === undefined &&
-                <Grid container item xs={12} justifyContent={'center'} alignItems={'center'} pt={5}>
-                    <CircularProgress />
+                <Grid container item xs={12} textAlign={'center'} pt={20}>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <CircularProgress/>
+                    </Grid>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <Typography color={'black'} variant={'h5'} fontWeight={700} pt={5} >Sign your transaction and wait for the vote to take place!</Typography>
+                    </Grid>
                 </Grid>
             }
+
             {done && sucess === false &&
-                <Grid container item xs={12} justifyContent={'center'} alignItems={'center'} pt={15}>
-                    <Typography color={'red'} variant={'h4'} pt={5}>Submitting vote failed</Typography>
-                    <Typography color={'red'} variant={'h5'} pt={5}>Make sure the smart contract address, votingKey and votingKeyGenerator are correct!</Typography>
+                <Grid item xs={12} flexDirection='column' textAlign={'center'} pt={15} px={15}>
+                    <Typography color={'red'} variant={'h4'} fontWeight={700} pt={5}>Submitting vote failed</Typography>
+                    <Typography color={'red'} variant={'h5'} fontWeight={700} pt={5}>Make sure the smart contract address and PrivateVotingID are correct!</Typography>
+                </Grid>
+            }
+
+            {done && sucess &&
+                <Grid container item xs={12} textAlign={'center'} pt={20}>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <CheckCircleIcon sx={{width: '150px', height:'150px'}} color="success" />
+                    </Grid>
+                    <Grid item justifyContent={'center'} xs={12}>
+                        <Typography color={'black'} variant={'h5'} fontWeight={700}>Your vote submitted successfully</Typography>
+                    </Grid>
                 </Grid>
             }
             <Button sx={{position: 'absolute', top: '3%', left: '2%', width:'35px', height: '35px'}} variant="contained" onClick={backHandler}><ArrowBackIcon /></Button>
