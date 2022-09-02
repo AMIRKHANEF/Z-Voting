@@ -19,7 +19,7 @@ contract SolidityTest is Verifier {
       merkleRoot = _merkleRoot;
    }
 
-   modifier commitmentNotDuplicate(string memory commitment) {
+   modifier commitmentNotDuplicate(uint commitment) {
       require(
          nullifierMap[commitment] == false,
          "the voter has already voted for the motion"
@@ -27,7 +27,7 @@ contract SolidityTest is Verifier {
       _;
    }
 
-   mapping(string => bool) public nullifierMap;
+   mapping(uint => bool) public nullifierMap;
    
    function getVoters() public view returns(uint[] memory){
       return voters;
@@ -38,11 +38,10 @@ contract SolidityTest is Verifier {
       uint[2][2] memory b,
       uint[2] memory c,
       uint[7] memory input,
-      string memory _nullifier,
       uint256 _vote
-   ) public commitmentNotDuplicate(_nullifier) {
+   ) public commitmentNotDuplicate(input[0]) {
       require(verifyProof(a, b, c, input), "Invalid proof");
-      nullifierMap[_nullifier] = true;
+      nullifierMap[input[0]] = true;
 
       if (_vote == 1) {
          AyeCounter += 1;
