@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Grid,Button, CircularProgress , Typography, TextField } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ethers} from 'ethers';
@@ -74,15 +74,15 @@ export function InitiateVoting({back}){
 
                 <Grid container item justifyContent={'center'} alignItems='center' spacing={2} pt={8}>
                     <Grid item container justifyContent={'center'}>
-                        <TextField id="outlined-basic" label='Voters votingKey' variant="outlined" sx={{width:'30%', pr: 3}} onChange={(event) => setVk1(event.target.value)}/>
-                        <TextField id="outlined-basic" label='Voters votingKey' variant="outlined" sx={{width:'30%'}} onChange={(event) => setVk2(event.target.value)}/>
+                        <TextField id="outlined-basic" label='Add PublicVotingID' variant="outlined" sx={{width:'30%', pr: 3}} onChange={(event) => setVk1(event.target.value)}/>
+                        <TextField id="outlined-basic" label='Add PublicVotingID' variant="outlined" sx={{width:'30%'}} onChange={(event) => setVk2(event.target.value)}/>
                     </Grid>
                     <Grid item container justifyContent={'center'}>
-                        <TextField id="outlined-basic" label='Voters votingKey' variant="outlined" sx={{width:'30%', pr: 3}} onChange={(event) => setVk3(event.target.value)}/>
-                        <TextField id="outlined-basic" label='Voters votingKey' variant="outlined" sx={{width:'30%'}} onChange={(event) => setVk4(event.target.value)}/>
+                        <TextField id="outlined-basic" label='Add PublicVotingID' variant="outlined" sx={{width:'30%', pr: 3}} onChange={(event) => setVk3(event.target.value)}/>
+                        <TextField id="outlined-basic" label='Add PublicVotingID' variant="outlined" sx={{width:'30%'}} onChange={(event) => setVk4(event.target.value)}/>
                     </Grid>
                     <Grid item container justifyContent={'center'}>
-                        <TextField id="outlined-basic" label='Voters votingKey' variant="outlined" sx={{width:'30%'}} onChange={(event) => setVk5(event.target.value)}/>
+                        <TextField id="outlined-basic" label='Add PublicVotingID' variant="outlined" sx={{width:'30%'}} onChange={(event) => setVk5(event.target.value)}/>
                     </Grid>
                 </Grid>
                 <Grid container item  justifyContent={'center'} pt={5}>
@@ -108,7 +108,7 @@ export function InitiateVoting({back}){
             }
             {contractAddress &&
                 <Grid item xs={12} textAlign='center' sx={{py:3}}>
-                    <Typography color={'black'} variant={'h5'} fontWeight={700} pt={20} >The Voting Initiated In This Address:</Typography>
+                    <Typography color={'black'} variant={'h5'} fontWeight={700} pt={20} >The Voting started In This Address:</Typography>
                     <Typography color={'black'} variant={'h4'} fontWeight={700} py={5} >{contractAddress}</Typography>
                     <Button variant='contained' onClick={etherscanHandler}>View on etherscan</Button>
                 </Grid>
