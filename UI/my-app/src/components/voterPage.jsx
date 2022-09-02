@@ -105,9 +105,10 @@ export function Voter({back}){
     },[]);
 
     const submitVoteOnContract = async (calldata, voteValue) => {
+        console.log('voteValue:', voteValue);
         const contract = new ethers.Contract(contractAddress, ZVotingABI, signer);
         try {
-            const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], calldata[3][0], voteValue);
+            const votingProcess = await contract.functions.Vote(calldata[0], calldata[1], calldata[2], calldata[3], voteValue);
             const recipt = await votingProcess.wait()
             setSucess(true);
         } catch (error) {
@@ -129,6 +130,7 @@ export function Voter({back}){
         }).then(async res =>{
             const proof = await res.text();
             try {
+                console.log('vote:', vote);
                 submitVoteOnContract(JSON.parse(proof), vote === 'AYE' ? 1 : 0);
             } catch (error) {
             console.error(error);            
@@ -139,12 +141,12 @@ export function Voter({back}){
 
     const submitHandler = useCallback(() => {
         !submitVote && setSubmitVote(true);
-        if (votingKeyGenerator && voters && publicRoot && index !== undefined){
+        if (votingKeyGenerator && voters && publicRoot && index !== undefined && vote){
             setSucess(undefined);
             setDone(true);
             doVote(voters, index, publicRoot, votingKeyGenerator);
         }
-    },[index, publicRoot, submitVote, voters, votingKeyGenerator]);
+    },[index, publicRoot, submitVote, voters, votingKeyGenerator, vote]);
 
     return(
         <>
