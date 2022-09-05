@@ -17,7 +17,7 @@ Framework will automatically open on your default browser.
 ![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/tree/main/gifs/generateVotingID.gif)
 
 **Initiating a Voting**
-![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/tree/main/gifs/InitiateVoting.gif)
+![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
 
 **Vote**
 ![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/tree/main/gifs/Vote.gif)
