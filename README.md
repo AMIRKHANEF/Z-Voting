@@ -17,7 +17,7 @@ Go through these steps to get familiar with Z-Voting
 ###  Step 1 - Generating a VotingID
 ![Generating VotingID](https://github.com/AMIRKHANEF/Z-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/generateVotingID.gif)
 
-### Step 2 - Initializaoin a voting
+### Step 2 - Initialization a voting
 ![Initiating a Voting](https://github.com/AMIRKHANEF/Z-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
 
 ### Step 3 - Vote
