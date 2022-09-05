@@ -8,16 +8,16 @@ For initiating a voting first you should insert the voting title, then you need 
 
 Voters who wants to submit thier vote in a voting must have the voting smart contract address and their VotingID, if the voter have permission for voting they can can choose between voting options and sign and send thier vote. [Here is the helper video](https://github.com/AMIRKHANEF/ZK-Gasless-Voting#vote).
 
-# Inistallation
+# Installation
 To run the Z-Voting framework, first install the dependencies `npm install` after dependencies successfully installed enter `npm run dev`.
 Framework will automatically open on your default browser.
 
-# How to use
-# Generating VotingID
+**How to use**
+# Generating a VotingID - step 1
 ![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/generateVotingID.gif)
 
-# Initiating a Voting
+# Initializaoin a Voting - step 2
 ![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
 
-# Vote
+# Vote - step 3
 ![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/Vote.gif)
