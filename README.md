@@ -12,12 +12,12 @@ Voters who wants to submit thier vote in a voting must have the voting smart con
 To run the Z-Voting framework, first install the dependencies `npm install` after dependencies successfully installed enter `npm run dev`.
 Framework will automatically open on your default browser.
 
-**How to use**
-# Generating a VotingID - step 1
-![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/generateVotingID.gif)
+# How to use
+   # Generating a VotingID - step 1
+  ![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/generateVotingID.gif)
 
-# Initializaoin a Voting - step 2
-![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
+  # Initializaoin a Voting - step 2
+  ![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
 
-# Vote - step 3
-![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/Vote.gif)
+  # Vote - step 3
+  ![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/Vote.gif)
