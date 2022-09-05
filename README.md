@@ -13,11 +13,11 @@ Framework will automatically open on your default browser.
 
 # How to use
 Go through these steps to get familiar with Z-Voting
-### Generating a VotingID - step 1
+###  Step 1 - Generating a VotingID
 ![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/generateVotingID.gif)
 
-### Initializaoin a voting - step 2
+### Step 2 - Initializaoin a voting
 ![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
 
-### Vote - step 3
+### Step 3 - Vote
 ![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/Vote.gif)
