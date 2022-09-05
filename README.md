@@ -13,11 +13,11 @@ To run the Z-Voting framework, first install the dependencies `npm install` afte
 Framework will automatically open on your default browser.
 
 # How to use
-**Generating VotingID**
-![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/tree/main/gifs/generateVotingID.gif)
+# Generating VotingID
+![Generating VotingID](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/generateVotingID.gif)
 
-**Initiating a Voting**
+# Initiating a Voting
 ![Initiating a Voting](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/3a2f5ff58762035f6f7a0346dabe1eed7197d94c/gifs/InitiateVoting.gif)
 
-**Vote**
-![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/tree/main/gifs/Vote.gif)
+# Vote
+![Vote](https://github.com/AMIRKHANEF/ZK-Gasless-Voting/blob/751fabdf7d9d1fa1fc620c39cc69d23247d9eab7/gifs/Vote.gif)
