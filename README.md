@@ -1,5 +1,6 @@
 # Z-Voting
 A completely anonymous and private voting framework based on zero-knowledge proof.
+You can read the presentation file, [Here!](https://github.com/AMIRKHANEF/Z-Voting/blob/cf077ee7d955c6b28810d7af4e801bd09474937a/Z-Voting%20presentation.pptx)
 
 # How it works
 Every voter must have a VotingID, which you can build using GENERATE VOTINGID button, [Here is a helper video](https://github.com/AMIRKHANEF/Z-Voting#step-1---generating-a-votingid)
