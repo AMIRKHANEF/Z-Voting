@@ -1,16 +1,4 @@
 node_modules/
 .vscode/settings.json
 package-lock.json
-build/asset-manifest.json
-build/index.html
-build/static/js/main.a46bdffc.js
-build/static/js/main.a46bdffc.js.LICENSE.txt
-build/static/js/main.a46bdffc.js.map
-build/static/js/main.c8fd2555.js
-build/static/js/main.c8fd2555.js.LICENSE.txt
-build/static/js/main.c8fd2555.js.map
-build/asset-manifest.json
-build/index.html
-build/static/js/main.a46bdffc.js
-build/static/js/main.a46bdffc.js.LICENSE.txt
-build/static/js/main.a46bdffc.js.map
+build/
