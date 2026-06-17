@@ -1,0 +1,25 @@
+{
+  "name": "@z-voting/contracts",
+  "version": "2.0.0",
+  "description": "Z-Voting Smart Contracts",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:coverage": "hardhat coverage",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "deploy:mumbai": "hardhat run scripts/deploy.ts --network mumbai",
+    "deploy:mainnet": "hardhat run scripts/deploy.ts --network mainnet",
+    "verify": "hardhat verify",
+    "lint": "solhint 'contracts/**/*.sol'"
+  },
+  "devDependencies": {
+    "hardhat": "^2.19.4",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/hardhat-upgrades": "^2.0.0",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "hardhat-gas-reporter": "^1.0.9",
+    "solidity-coverage": "^0.8.5",
+    "solhint": "^4.1.1",
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}

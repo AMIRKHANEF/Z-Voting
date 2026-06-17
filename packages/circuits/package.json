@@ -1,0 +1,15 @@
+{
+  "name": "@z-voting/circuits",
+  "version": "2.0.0",
+  "description": "Z-Voting Circom Circuits",
+  "scripts": {
+    "build": "circom circuits/*.circom --r1cs --wasm --sym -o build",
+    "setup": "snarkjs groth16 setup build/*.r1cs build/ptau/pot_final.ptau build/zkey_0000.zkey && snarkjs zkey contribute build/zkey_0000.zkey build/zkey_0001.zkey --name='contribution' --entropy='random text'",
+    "test": "node test/test.mjs"
+  },
+  "dependencies": {
+    "circom_tester": "^0.0.20",
+    "circomlibjs": "^4.0.5",
+    "snarkjs": "^0.7.0"
+  }
+}
